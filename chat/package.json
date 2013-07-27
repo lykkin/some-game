@@ -1,0 +1,28 @@
+{
+  "name":"some-game-chat",
+
+  "description":"Chat abstraction layer",
+
+  "version":"0.0.1",
+
+  "author":"lykkin",
+
+  "dependencies":{
+    "redis":"latest"
+  },
+
+  "devDependencies":{
+    "mocha":"latest"
+  },
+
+  "scripts": {
+    "test": "mocha"
+  },
+
+  "license": "MIT",
+
+  "engines": {
+    "node": ">=0.10.0"
+  }
+
+}

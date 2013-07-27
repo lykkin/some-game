@@ -1,0 +1,31 @@
+{
+  "name":"some-game-server",
+
+  "description":"The server to the game!",
+
+  "version":"0.0.1",
+
+  "author":"lykkin",
+
+  "dependencies":{
+    "socket.io":"latest",
+    "express":"latest",
+    "ejs":"latest"
+  },
+
+  "devDependencies":{
+    "mocha":"latest"
+  },
+
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+
+  "license": "MIT",
+
+  "engines": {
+    "node": ">=0.10.0"
+  }
+
+}

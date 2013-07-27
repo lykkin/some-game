@@ -1,0 +1,30 @@
+{
+  "name":"some-game-db",
+
+  "version":"0.0.1",
+
+  "description":"Db abstraction layer",
+
+  "author":"lykkin",
+
+  "dependencies":{
+    "redis":"latest",
+    "mongoose":"latest"
+  },
+
+  "devDependencies":{
+    "mocha":"latest",
+    "expect":"latest"
+  },
+
+  "scripts": {
+    "test": "mocha"
+  },
+
+  "license": "MIT",
+
+  "engines": {
+    "node": ">=0.10.0"
+  }
+
+}
