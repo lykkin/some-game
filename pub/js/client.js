@@ -34,14 +34,14 @@ pointLight.position.z = 130;
 scene.add(pointLight);
 
 var sphereMaterial =
-  new THREE.MeshLambertMaterial(
+  new THREE.MeshPhongMaterial(
     {
       color: 0xCC0000
     });
 
 var radius = 50,
     segments = 16,
-    rings = 16;
+    rings = 40;
 
 // create a new mesh with
 // sphere geometry - we will cover
@@ -71,4 +71,5 @@ $(document).ready(function(){
 		renderer.render(scene, camera);
 	};
 	draw()
+
 });
