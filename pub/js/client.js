@@ -1,4 +1,5 @@
-var canvas = document.createElement('canvas');
-document.body.appendChild(canvas);
-
-var gl = canvas.getContext('experimental-webgl');
+$(document).ready(function(){
+	canvas = document.createElement('canvas');
+	document.body.appendChild(canvas);
+	gl = canvas.getContext('experimental-webgl');
+});
