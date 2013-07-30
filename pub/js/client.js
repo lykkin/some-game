@@ -1,3 +1,54 @@
+var clientModel = Backbone.Model.extend({
+	models : [],
+	socket : io,
+	map : undefined,
+	initialize: function(models){
+		this.models = models;
+		_.bindAll(this, 'render');
+		this.render();
+	},
+	render: function(){
+		_.each(this.models, function(model){
+			model.render(0);
+		});
+	}
+	
+});
+
+var actorModel = Backbone.Model.extend({
+	actor: undefined,
+	updated: true,
+
+	initialize: function(actor){
+		this.actor = actor;
+		_.bindAll(this, 'move', 'render', 'update');
+		this.render();	
+	},
+	move: function(newPos){
+		if(typeof newPos.x == 'number'){
+			this.actor.position.x = newPos.x;
+		}
+
+		if(typeof newPos.y == 'number'){
+			this.actor.position.y = newPos.y;
+		}
+
+		if(typeof newPos.z == 'number'){
+			this.actor.position.z = newPos.z;
+		}
+	},
+
+	update: function(){
+
+	},
+	
+	render: function(){
+		requestAnimationFrame(this.render);
+		renderer.render(scene, camera);
+	}
+	
+});
+
 var WIDTH = window.innerWidth - 20,
     HEIGHT = window.innerHeight - 20;
 
@@ -58,18 +109,19 @@ var sphere = new THREE.Mesh(
 // add the sphere to the scene
 scene.add(sphere);
 
-var counter = 0;
 $(document).ready(function(){
-	var $container = $('body');
-	$container.append(renderer.domElement);
-	function draw(){
-		counter = (counter+1)%360;
-		requestAnimationFrame(draw);
-		pointLight.position.x = Math.cos(Math.PI*(counter/180)) * 300;
-		pointLight.position.z = Math.cos(Math.PI*(counter/180)) * 300;
-		pointLight.position.y = Math.sin(Math.PI*(counter/180)) * 300;
-		renderer.render(scene, camera);
-	};
-	draw()
-
+	var lightActor = new actorModel(pointLight);
+	var client = new clientModel([lightActor]);
+	var counter = 0;
+	function moveLight(){
+		counter = (counter + 1) %360;
+		requestAnimationFrame(moveLight);
+		lightActor.move({
+			x: Math.cos((counter/180) * Math.PI) * 300,
+			y: Math.sin((counter/180) * Math.PI) * 300,
+			z: Math.cos((counter/180) * Math.PI) * 300
+		});
+	}
+	moveLight();
+	$('body').append(renderer.domElement);
 });
