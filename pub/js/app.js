@@ -1,12 +1,13 @@
 //load all the required libraries, paths are defined through requirejs,
 //and loaded via aliases
+//the globals are still available, though using these define methods
+//ensures that there won't be any stray race conditions when we start
+//breaking things out into class files
 define([
-    'jquery',
-    'underscore',
     'backbone', 
     'socketio',
     'three'
-    ], function($, _, Backbone, io, THREE){
+    ], function(){
         var clientModel = Backbone.Model.extend({
             models : [],
             socket : undefined,

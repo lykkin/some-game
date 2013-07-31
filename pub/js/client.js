@@ -1,3 +1,5 @@
+//mishmash of stuff, need to separate all this out into class files and
+//stuff.
 var clientModel = Backbone.Model.extend({
 	models : [],
 	socket : undefined,

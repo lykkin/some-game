@@ -11,7 +11,9 @@ require.config({
     //shims are used to ensure dependencies are met before the use
     //of a library, in this case, jquery and underscore will be
     //included when backbone is. 
-    shim: { 
+    //only use shims in case of scripts that don't use define (e.g.
+    //library scripts like backbone)
+    shim: {
         backbone: {
             deps: ['jquery','underscore'],
             exports: 'Backbone'
@@ -21,6 +23,12 @@ require.config({
         },
         socketio: {
             exports: 'io'
+        },
+        underscore: {
+            exports: '_'
+        },
+        jquery: {
+            exports: '$'
         }
     }
 });
