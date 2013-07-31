@@ -4,65 +4,14 @@
 //ensures that there won't be any stray race conditions when we start
 //breaking things out into class files
 define([
+    'models/actor',
+    'models/actorList',
+    'models/map',
+    'models/client',
     'backbone', 
     'socketio',
     'three'
-    ], function(){
-        var clientModel = Backbone.Model.extend({
-            models : [],
-            socket : undefined,
-            map : undefined,
-            initialize: function(models){
-                this.models = models;
-                this.socket = io.connect('http://localhost:8001');
-                _.bindAll(this, 'render');
-                this.render();
-            },
-            render: function(){
-                _(this.models).each(function(model){
-                    model.render(0);
-                });
-            }
-            
-        });
-
-        var gameElement = Backbone.Model.extend({
-        });
-
-        var actorModel = Backbone.Model.extend({
-            actor: undefined,
-            updated: true,
-
-            initialize: function(actor){
-                this.actor = actor;
-                _.bindAll(this, 'move', 'render', 'update');
-                this.render();	
-            },
-            move: function(newPos){
-                if(typeof newPos.x == 'number'){
-                    this.actor.position.x = newPos.x;
-                }
-
-                if(typeof newPos.y == 'number'){
-                    this.actor.position.y = newPos.y;
-                }
-
-                if(typeof newPos.z == 'number'){
-                    this.actor.position.z = newPos.z;
-                }
-            },
-
-            update: function(){
-
-            },
-            
-            render: function(){
-                requestAnimationFrame(this.render);
-                renderer.render(scene, camera);
-            }
-            
-        });
-
+    ], function(Actor, ActorList, Map, Client){
         var WIDTH = window.innerWidth - 20,
             HEIGHT = window.innerHeight - 20;
 
@@ -124,21 +73,12 @@ define([
         scene.add(sphere);
 
         $(document).ready(function(){
-            var lightActor = new actorModel(pointLight);
-            var sphereActor = new actorModel(sphere);
-            var cameraActor = new actorModel(camera);
-            var client = new clientModel([lightActor]);
-            var counter = 0;
-            function moveLight(){
-                counter = (counter + 1) %360;
-                requestAnimationFrame(moveLight);
-                cameraActor.move({
-                    x: Math.cos((counter/180) * Math.PI) * 100,
-                    y: Math.sin((counter/180) * Math.PI) * 100,
-                    //z: Math.cos((counter/180) * Math.PI) * 100
-                });
-            }
-            moveLight();
+            var lightActor = new Actor(pointLight);
+            var sphereActor = new Actor(sphere);
+            var cameraActor = new Actor(camera);
+            var map = new Map(scene, renderer, camera);
+            var client = new Client('http://localhost:8001', map, 
+                [lightActor]);
             $('body').append(renderer.domElement);
         });
     return {};
