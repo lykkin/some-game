@@ -1,18 +1,23 @@
 var clientModel = Backbone.Model.extend({
 	models : [],
-	socket : io,
+	socket : undefined,
 	map : undefined,
 	initialize: function(models){
 		this.models = models;
+		this.socket = io.connect('http://localhost:8001');
+		console.log(this.socket);
 		_.bindAll(this, 'render');
 		this.render();
 	},
 	render: function(){
-		_.each(this.models, function(model){
+		_(this.models).each(function(model){
 			model.render(0);
 		});
 	}
 	
+});
+
+var gameElement = Backbone.Model.extend({
 });
 
 var actorModel = Backbone.Model.extend({
@@ -52,6 +57,7 @@ var actorModel = Backbone.Model.extend({
 var WIDTH = window.innerWidth - 20,
     HEIGHT = window.innerHeight - 20;
 
+		console.log(this.socket);
 var VIEW_ANGLE = 45,
     ASPECT = WIDTH / HEIGHT,
     NEAR = 0.1,
@@ -111,15 +117,17 @@ scene.add(sphere);
 
 $(document).ready(function(){
 	var lightActor = new actorModel(pointLight);
+	var sphereActor = new actorModel(sphere);
+	var cameraActor = new actorModel(camera);
 	var client = new clientModel([lightActor]);
 	var counter = 0;
 	function moveLight(){
 		counter = (counter + 1) %360;
 		requestAnimationFrame(moveLight);
-		lightActor.move({
-			x: Math.cos((counter/180) * Math.PI) * 300,
-			y: Math.sin((counter/180) * Math.PI) * 300,
-			z: Math.cos((counter/180) * Math.PI) * 300
+		cameraActor.move({
+			x: Math.cos((counter/180) * Math.PI) * 100,
+			y: Math.sin((counter/180) * Math.PI) * 100,
+			//z: Math.cos((counter/180) * Math.PI) * 100
 		});
 	}
 	moveLight();
