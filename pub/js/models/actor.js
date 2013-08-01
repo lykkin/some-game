@@ -1,3 +1,5 @@
+//actor class, this is the base for anything that is free to move about
+//the map.
 define([
     'backbone'
 ], function(Backbone){

@@ -1,3 +1,6 @@
+//this is going to be a client for a single game, it will handle all the
+//socket comm during a match and pass it off to the correct module for
+//handling.
 define([
     'models/map',
     'models/actor',

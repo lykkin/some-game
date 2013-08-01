@@ -1,5 +1,12 @@
+//this is the map classi, it will hold all map specific data, this
+//includes pathing matrices, tilesets, graphics engine data (more to
+//come here)
+
+//as there will be one map for each match, they are in charge of
+//rendering currently, this may be taken out to the client level if the
+//need to start/stop rendering is needed.
 define([
-    'backbone'
+    'backbone',
 ], function(){
     return Backbone.Model.extend({
         scene: undefined,

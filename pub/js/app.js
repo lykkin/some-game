@@ -3,6 +3,10 @@
 //the globals are still available, though using these define methods
 //ensures that there won't be any stray race conditions when we start
 //breaking things out into class files
+
+
+//this is currently the set up for the graphics engine, this might be
+//pushed into the client or map initialization later
 define([
     'models/actor',
     'models/actorList',
