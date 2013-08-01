@@ -1,13 +1,15 @@
 //actor class, this is the base for anything that is free to move about
 //the map.
 define([
+    'models/gameElement',
     'backbone'
-], function(Backbone){
-   return Backbone.Model.extend({
+], function(GameElement){
+   return GameElement.extend({
         actor: undefined,
 
-        initialize: function(actor){
+        initialize: function(scene, actor){
             this.actor = actor;
+            GameElement.prototype.initialize.apply(this, scene);
             _.bindAll(this, 'move');
         },
 

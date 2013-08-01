@@ -14,6 +14,9 @@ define([
         actors: undefined,
         initialize: function(connectURL, map, actors){
             this.socket = io.connect(connectURL);
+            this.socket.on('hello', function(data){
+                console.log(data);
+            });
             this.map = map;
             this.actors = new ActorList(actors);
             _.bindAll(this, 'testMove', 'render');
@@ -31,7 +34,6 @@ define([
             this.counter = (this.counter + 1) %360;
             var self = this;
             this.actors.map(function(actor){
-                console.log(actor.actor.position.x);
                 actor.move({
                     x: Math.cos(Math.PI * (self.counter/180)) * 300,
                     y: Math.sin(Math.PI * (self.counter/180)) * 300,

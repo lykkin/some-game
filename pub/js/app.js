@@ -77,9 +77,9 @@ define([
         scene.add(sphere);
 
         $(document).ready(function(){
-            var lightActor = new Actor(pointLight);
-            var sphereActor = new Actor(sphere);
-            var cameraActor = new Actor(camera);
+            var lightActor = new Actor(scene, pointLight);
+            var sphereActor = new Actor(scene, sphere);
+            var cameraActor = new Actor(scene, camera);
             var map = new Map(scene, renderer, camera);
             var client = new Client('http://localhost:8001', map, 
                 [lightActor]);
