@@ -9,7 +9,8 @@ define([
 
         initialize: function(scene, actor){
             this.actor = actor;
-            GameElement.prototype.initialize.apply(this, scene);
+            this.constructor.__super__.initialize.apply(this, arguments);
+            scene.add(actor);
             _.bindAll(this, 'move');
         },
 
@@ -25,6 +26,8 @@ define([
             if(typeof newPos.z == 'number'){
                 this.actor.position.z = newPos.z;
             }
+
+            return this;
         }
 
    });

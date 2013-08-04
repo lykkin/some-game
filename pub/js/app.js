@@ -12,10 +12,11 @@ define([
     'models/actorList',
     'models/map',
     'models/client',
+    'models/greenTile',
     'backbone', 
     'socketio',
     'three'
-    ], function(Actor, ActorList, Map, Client){
+    ], function(Actor, ActorList, Map, Client, GreenTile){
         var WIDTH = window.innerWidth - 20,
             HEIGHT = window.innerHeight - 20;
 
@@ -24,7 +25,7 @@ define([
             NEAR = 0.1,
             FAR = 500;
 
-        var camera =
+        camera =
             new THREE.PerspectiveCamera(
                 VIEW_ANGLE,
                 ASPECT,
@@ -34,9 +35,12 @@ define([
         var renderer = new THREE.WebGLRenderer();
 
         var scene = new THREE.Scene();
-        scene.add(camera);
 
         camera.position.z = 300;
+        camera.position.y = -200;
+        camera.position.x = -200;
+        camera.up = new THREE.Vector3(0,0,1);
+        camera.lookAt(new THREE.Vector3(100,100,0));
 
         renderer.setSize(WIDTH, HEIGHT);
 
@@ -48,39 +52,19 @@ define([
         pointLight.position.y = 50;
         pointLight.position.z = 130;
 
-        // add to the scene
-        scene.add(pointLight);
-
-        var sphereMaterial =
-        new THREE.MeshPhongMaterial(
-            {
-            color: 0xCC0000
-            });
-
-        var radius = 50,
-            segments = 16,
-            rings = 40;
-
-        // create a new mesh with
-        // sphere geometry - we will cover
-        // the sphereMaterial next!
-        var sphere = new THREE.Mesh(
-
-        new THREE.SphereGeometry(
-            radius,
-            segments,
-            rings),
-
-        sphereMaterial);
-
-        // add the sphere to the scene
-        scene.add(sphere);
-
         $(document).ready(function(){
             var lightActor = new Actor(scene, pointLight);
-            var sphereActor = new Actor(scene, sphere);
             var cameraActor = new Actor(scene, camera);
             var map = new Map(scene, renderer, camera);
+            var green = new GreenTile(scene, {x:-1, y:-1, z:0}, 1);
+            var green = new GreenTile(scene, {x:-1, y:0, z:0}, 1);
+            var green = new GreenTile(scene, {x:-1, y:1, z:0}, 1);
+            var green = new GreenTile(scene, {x:0, y:-1, z:0}, 1);
+            var green = new GreenTile(scene, {x:0, y:0, z:1}, 1);
+            var green = new GreenTile(scene, {x:0, y:1, z:0}, 1);
+            var green = new GreenTile(scene, {x:1, y:-1, z:0}, 1);
+            var green = new GreenTile(scene, {x:1, y:0, z:0}, 1);
+            var green1 = new GreenTile(scene, {x:1, y:1, z:0}, 1);
             var client = new Client('http://localhost:8001', map, 
                 [lightActor]);
             $('body').append(renderer.domElement);

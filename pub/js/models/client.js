@@ -37,6 +37,7 @@ define([
                 actor.move({
                     x: Math.cos(Math.PI * (self.counter/180)) * 300,
                     y: Math.sin(Math.PI * (self.counter/180)) * 300,
+                    z: Math.cos(Math.PI * (self.counter/180)) * 300,
                 });
             });
         }
