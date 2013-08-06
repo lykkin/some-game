@@ -15,7 +15,6 @@ define([
         initialize: function(connectURL, map, actors){
             this.socket = io.connect(connectURL);
             this.socket.on('hello', function(data){
-                console.log(data);
             });
             this.map = map;
             this.actors = new ActorList(actors);

@@ -2,7 +2,7 @@
 //the map.
 define([
     'models/gameElement',
-    'backbone'
+    'backbone',
 ], function(GameElement){
    return GameElement.extend({
         actor: undefined,
