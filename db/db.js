@@ -1,4 +1,7 @@
 //some db stuff
+
+//this is going to store serverside unit, user, map, and match
+//information
 var mongoose = require('mongoose');
 var cache = require('redis');
 var schema = require('./schema.js');
