@@ -17,16 +17,15 @@ define([
     'socketio',
     'three'
     ], function(Actor, ActorList, Map, Client, GreenTile){
-	var intersectObjs = [];
         var WIDTH = window.innerWidth - 20,
             HEIGHT = window.innerHeight - 20;
 
         var VIEW_ANGLE = 45,
             ASPECT = WIDTH / HEIGHT,
             NEAR = 0.1,
-            FAR = 1000;
+            FAR = 10000;
 
-        camera =
+        var camera =
             new THREE.PerspectiveCamera(
                 VIEW_ANGLE,
                 ASPECT,
@@ -38,10 +37,10 @@ define([
         var scene = new THREE.Scene();
 
         camera.position.z = 300;
-        camera.position.y = -300;
-        camera.position.x = -300;
+        camera.position.y = 0;
+        camera.position.x = 0;
         camera.up = new THREE.Vector3(0,0,1);
-        camera.lookAt(new THREE.Vector3(100,100,0));
+        camera.lookAt(new THREE.Vector3(400,400,0));
 
         renderer.setSize(WIDTH, HEIGHT);
 
@@ -56,36 +55,23 @@ define([
 
 	//add mouselistener to objects
 	var projector = new THREE.Projector();
+    var map = new Map(scene, renderer, camera);
+    var lightActor = new Actor(scene, pointLight);
+    var cameraActor = new Actor(scene, camera);
+    var client = new Client('http://localhost:8001', map);
 	
 	function onDocumentMouseDown( event ) {
                 event.preventDefault();
                 var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
                 projector.unprojectVector( vector, camera );
                 var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-                var intersects = ray.intersectObjects( intersectObjs );
-                if ( intersects.length > 0 ) {
-                    intersects[0].object.dispatchEvent({type:'click'});
-                }
-
+                map.getObject(ray);
             }
 
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
         $(document).ready(function(){
-            var lightActor = new Actor(scene, pointLight);
-            var cameraActor = new Actor(scene, camera);
-            var map = new Map(scene, renderer, camera);
-            new GreenTile(scene, {x:-1, y:-1, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:-1, y:0, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:-1, y:1, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:0, y:-1, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:0, y:0, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:0, y:1, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:1, y:-1, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:1, y:0, z:0}, 1, intersectObjs);
-            new GreenTile(scene, {x:1, y:1, z:0}, 1, intersectObjs);
-            var client = new Client('http://localhost:8001', map, 
-                [lightActor]);
+            map.addTiles(30,30);
             $('body').append(renderer.domElement);
         });
     return {};

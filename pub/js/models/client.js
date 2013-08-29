@@ -11,15 +11,10 @@ define([
     return Backbone.Model.extend({
         socket: undefined,
         map: undefined,
-        actors: undefined,
-        initialize: function(connectURL, map, actors){
+        initialize: function(connectURL, map){
             this.socket = io.connect(connectURL);
-            this.socket.on('hello', function(data){
-            });
             this.map = map;
-            this.actors = new ActorList(actors);
-            _.bindAll(this, 'testMove', 'render');
-            this.testMove();
+            _.bindAll(this, 'render');
             this.render();
         },
 
@@ -27,18 +22,5 @@ define([
             this.map.render();
         },
         
-        counter: 0,
-        testMove: function(){
-            requestAnimationFrame(this.testMove);
-            this.counter = (this.counter + 1) %360;
-            var self = this;
-            this.actors.map(function(actor){
-                actor.move({
-                    x: Math.cos(Math.PI * (self.counter/180)) * 300,
-                    y: Math.sin(Math.PI * (self.counter/180)) * 300,
-                    z: Math.cos(Math.PI * (self.counter/180)) * 300,
-                });
-            });
-        }
     });
 });

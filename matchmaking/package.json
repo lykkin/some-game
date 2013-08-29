@@ -1,7 +1,7 @@
 {
-  "name":"some-game-chat",
+  "name":"some-game-matchmaking",
 
-  "description":"Chat module",
+  "description":"Matchmaking module",
 
   "version":"0.0.1",
 

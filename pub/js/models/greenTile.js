@@ -4,8 +4,9 @@ define([
     'three',
 ], function(Tile){
     return Tile.extend({
-        initialize: function(scene, coordinates, movementCost, objList){
+        initialize: function(scene, coordinates, movementCost){
             Tile.prototype.initialize.apply(this, arguments);
+
 
             this.mesh = new THREE.Mesh(
             
@@ -25,9 +26,9 @@ define([
             this.mesh.position.y = coordinates.y * this.sideLength;
             this.mesh.position.z = coordinates.z * this.sideLength;
 
+            this.mesh.coordinates = this.coordinates;
+
             var select = (function(event){
-                console.log('test');
-                w = this.mesh;
                 if(this.mesh.material.color.r == 1){
                     this.mesh.material.color.g = 1;
                     this.mesh.material.color.r = 0;
@@ -37,8 +38,6 @@ define([
                 }
             }).bind(this);
             this.mesh.addEventListener('click', select);
-
-            objList.push(this.mesh);
             //add the object to the scene
             this.scene.add(this.mesh);
         }
