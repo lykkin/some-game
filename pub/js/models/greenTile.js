@@ -28,7 +28,7 @@ define([
 
             this.mesh.coordinates = this.coordinates;
 
-            var select = (function(event){
+            this.select = (function(event){
                 if(this.mesh.material.color.r == 1){
                     this.mesh.material.color.g = 1;
                     this.mesh.material.color.r = 0;
@@ -37,7 +37,7 @@ define([
                     this.mesh.material.color.r = 1;
                 }
             }).bind(this);
-            this.mesh.addEventListener('click', select);
+            this.mesh.addEventListener('click', this.select);
             //add the object to the scene
             this.scene.add(this.mesh);
         }

@@ -1,4 +1,4 @@
-//this is the map classi, it will hold all map specific data, this
+//this is the map class, it will hold all map specific data, this
 //includes pathing matrices, tilesets, graphics engine data (more to
 //come here)
 
@@ -17,6 +17,7 @@ define([
         tiles: undefined,
         actors: undefined,
         intersectObjs: undefined,
+        socket: undefined,
 
         initialize: function(scene, renderer, camera){
             this.tiles = [];
@@ -28,6 +29,11 @@ define([
             this.camera = camera;
             _.bindAll(this, 'render', 'addTiles', 'getObject');
             this.render();
+        },
+
+        move: function(moveData){
+            this.tiles[moveData.y][moveData.x].select();
+
         },
 
         render: function(){
@@ -56,7 +62,13 @@ define([
                 var selectedMesh = intersects[0].object;
                 var selectedTile = this.tiles[selectedMesh.coordinates.x][selectedMesh.coordinates.y];
                 this.getMovements(selectedTile, {movement:1});
-                intersects[0].object.dispatchEvent({type:'click'});
+                selectedMesh.dispatchEvent({type:'click'});
+                this.socket.emit('move', {
+                    x:selectedMesh.coordinates.x,
+                    y:selectedMesh.coordinates.y
+                });
+
+
             }
         },
 

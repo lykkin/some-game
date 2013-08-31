@@ -14,6 +14,11 @@ define([
         initialize: function(connectURL, map){
             this.socket = io.connect(connectURL);
             this.map = map;
+            var moveFun = (function(moveData){
+                this.map.move(moveData);
+            }).bind(this);
+            this.socket.on('move', moveFun);
+            this.map.socket = this.socket;
             _.bindAll(this, 'render');
             this.render();
         },

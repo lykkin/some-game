@@ -3,6 +3,7 @@
 //here
 var db = require('./db/db.js');
 var chat = require('./chat/chat.js');
+var matcher = require('./matches/matchmaker.js');
 
 var express = require('express');
 var http = require('http');
@@ -13,7 +14,11 @@ var server = http.createServer(app);
 var sio = require('socket.io').listen(server);
 
 sio.sockets.on('connection', function(socket){
-	socket.emit('hello', { hello: 'world'});
+    socket.on('disconnect', function(){
+        matcher.removeUser(socket);
+    });
+    var opponent = matcher.newMatch(socket);
+
 });
 
 app.configure(function (){
