@@ -17,7 +17,7 @@ define([
                 ),
 
             new THREE.MeshLambertMaterial({
-                    color: 0x00FF00
+                    color: 0x00FF00,
                 })
             );
 

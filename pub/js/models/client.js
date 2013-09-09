@@ -17,8 +17,8 @@ define([
             var moveFun = (function(moveData){
                 this.map.move(moveData);
             }).bind(this);
-            this.socket.on('move', moveFun);
             this.map.socket = this.socket;
+            this.map.socket.on('move', moveFun);
             _.bindAll(this, 'render');
             this.render();
         },

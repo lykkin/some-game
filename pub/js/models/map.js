@@ -8,7 +8,16 @@
 define([
     'models/greenTile',
     'backbone',
+    'stats',
 ], function(GreenTile){
+    var stats = new Stats(0);
+
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+
+    document.body.appendChild( stats.domElement );
+
     return Backbone.Model.extend({
         scene: undefined,
         renderer: undefined,
@@ -38,7 +47,9 @@ define([
 
         render: function(){
             requestAnimationFrame(this.render);
+            stats.begin();
             this.renderer.render(this.scene, this.camera);
+            stats.end();
         },
 
         addTiles: function(length, width){

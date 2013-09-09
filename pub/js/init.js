@@ -5,8 +5,9 @@ require.config({
         jquery: 'lib/jquery-2.0.3.min',
         underscore: 'lib/underscore-min',
         backbone: 'lib/backbone-min',
-        three: 'lib/three.min',
+        three: 'lib/three',
         socketio: '/socket.io/socket.io',
+        stats: 'lib/stats.min',
     },
     //shims are used to ensure dependencies are met before the use
     //of a library, in this case, jquery and underscore will be
